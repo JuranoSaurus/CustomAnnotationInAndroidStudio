@@ -9,10 +9,13 @@ import java.util.Collections;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.Completion;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 
 import static com.annotation.compiler.Utils.getPackageName;
@@ -42,7 +45,6 @@ public class AnnotationProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnv) {
-
         for(Element annotatedElement : roundEnv.getElementsAnnotatedWith(StaticLauncher.class)){
             TypeElement annotatedClass = (TypeElement) annotatedElement;
             if(!isValidClass(annotatedClass)){
@@ -86,4 +88,8 @@ public class AnnotationProcessor extends AbstractProcessor {
         return true;
     }
 
+    @Override
+    public Iterable<? extends Completion> getCompletions(Element element, AnnotationMirror annotationMirror, ExecutableElement executableElement, String s) {
+        return super.getCompletions(element, annotationMirror, executableElement, s);
+    }
 }
